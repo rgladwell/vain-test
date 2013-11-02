@@ -10,15 +10,15 @@ import me.gladwell.vain.dependencies._
 
 trait Classpath {
 
-  private val thread = Thread.currentThread
-  private val classLoader: URLClassLoader = thread.getContextClassLoader.getParent.asInstanceOf[URLClassLoader]
+  private def thread = Thread.currentThread
+  private def classLoader: URLClassLoader = thread.getContextClassLoader.asInstanceOf[URLClassLoader]
 
-  val classpath = classLoader.getURLs()
+  def classpath = classLoader.getURLs()
 
   def dependency(dependency: Dependency): BeMatcher[URL] = new BeMatcher[URL] {
     def apply(url: URL) = MatchResult(
       dependency match {
-        case JavaLibrary(organisation, name, version) => url.toString.endsWith(s"${organisation}.${name}-${version}.jar")
+        case JavaLibrary(organisation, name, version) => url.toString.endsWith(s"${name}-${version}.jar")
         case _ => false
       },
       s"$url did not match dependency $dependency",
