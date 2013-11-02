@@ -25,4 +25,18 @@ class DependenciesSpec extends FlatSpec with Matchers with GivenWhenThen with Cl
     exactly(1, classpath) should be (dependency(JavaLibrary(group = "commons-lang", name = "commons-lang", version = "2.4")))
   }
 
+  "A Vain module" should "resolve and add Java library dependencies to the compile-time classpath" in {
+    Given("a module with a dependency on the commons-lang Java library")
+    object testModule extends ScalaModule {
+      dependsOn(Seq(JavaLibrary(group = "commons-lang", name = "commons-lang", version = "2.4")))
+    }
+
+    When("the module is loaded")
+    testModule
+
+    Then("commons-lang utilities should be available")
+    import org.apache.commons.lang.StringUtils.upperCase
+    upperCase("test") should be ("TEST")
+  }
+
 }
