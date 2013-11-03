@@ -15,10 +15,10 @@ trait Classpath {
 
   def classpath = classLoader.getURLs()
 
-  def dependency(dependency: Dependency): BeMatcher[URL] = new BeMatcher[URL] {
+  def dependency(dependency: Dep): BeMatcher[URL] = new BeMatcher[URL] {
     def apply(url: URL) = MatchResult(
       dependency match {
-        case JavaLibrary(organisation, name, version) => url.toString.endsWith(s"${name}-${version}.jar")
+        case Dep(organisation, name, version) => url.toString.endsWith(s"${name}-${version}.jar")
         case _ => false
       },
       s"$url did not match dependency $dependency",

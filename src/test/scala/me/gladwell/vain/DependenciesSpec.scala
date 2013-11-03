@@ -7,7 +7,6 @@ import org.scalatest.Matchers
 import org.scalatest.junit.JUnitRunner
 
 import me.gladwell.vain._
-import me.gladwell.vain.dependencies.JavaLibrary
 
 @RunWith(classOf[JUnitRunner])
 class DependenciesSpec extends FlatSpec with Matchers with GivenWhenThen with Classpath {
@@ -15,20 +14,20 @@ class DependenciesSpec extends FlatSpec with Matchers with GivenWhenThen with Cl
   "A Vain module" should "resolve and add Java library dependencies to the runtime classpath" in {
     Given("a module with a dependency on the commons-lang Java library")
     object testModule extends ScalaModule {
-      dependsOn(Seq(JavaLibrary(group = "commons-lang", name = "commons-lang", version = "2.4")))
+      dependsOn(Seq(Dep(group = "commons-lang", name = "commons-lang", version = "2.4")))
     }
 
     When("the module is loaded")
     testModule
 
     Then("the classpath should contain the commons-lang jar")
-    exactly(1, classpath) should be (dependency(JavaLibrary(group = "commons-lang", name = "commons-lang", version = "2.4")))
+    exactly(1, classpath) should be (dependency(Dep(group = "commons-lang", name = "commons-lang", version = "2.4")))
   }
 
   "A Vain module" should "resolve and add Java library dependencies to the compile-time classpath" in {
     Given("a module with a dependency on the commons-lang Java library")
     object testModule extends ScalaModule {
-      dependsOn(Seq(JavaLibrary(group = "commons-lang", name = "commons-lang", version = "2.4")))
+      dependsOn(Seq(Dep(group = "commons-lang", name = "commons-lang", version = "2.4")))
     }
 
     When("the module is loaded")
